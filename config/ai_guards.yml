@@ -1,0 +1,31 @@
+# Per-app guardrail configuration, read by AiGuardConfig.
+# See docs/ai-guardrails.md (Layer 5: AiOutputGuard) and docs/ai-evals.md.
+
+# IntentSpring users write one sentence about something personal they are reaching for, so distress is in scope.
+# A match returns crisis resources (988) instead of an AI call. Same list as open-questiontap.
+crisis_terms:
+  - kill myself
+  - killing myself
+  - end my life
+  - take my own life
+  - suicide
+  - suicidal
+  - want to die
+  - wish i were dead
+  - hurt myself
+  - self harm
+  - self-harm
+  - no reason to live
+
+# Output structure rules per AiTemplate name. Templates not listed get the
+# generic output checks only (non-empty, no prompt leak, no profanity, no new PII).
+#   format:        text | json
+#   required_keys: top-level keys the JSON object must contain
+templates:
+  health_ping:
+    format: text
+  # GuidedScriptsController#parse_script! reads these four keys, all always present. It also checks the segment
+  # count and shape, the making prompt, the word count (130 a minute, plus or minus 25%) and BannedPhraseCheck.
+  intentspring_script_v1:
+    format: json
+    required_keys: [title, length_minutes, segments, making_prompt]

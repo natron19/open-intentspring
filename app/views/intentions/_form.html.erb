@@ -1,0 +1,51 @@
+<div style="max-width: 720px;">
+  <%= form_with model: intention,
+        data: { controller: "form-submit", action: "submit->form-submit#disable" } do |f| %>
+
+    <% if intention.errors.any? %>
+      <div class="alert alert-danger">
+        <ul class="mb-0">
+          <% intention.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="mb-3">
+      <%= f.label :sentence, "What are you reaching for, in one sentence?", class: "form-label" %>
+      <%= f.text_area :sentence, rows: 2, maxlength: 240,
+            class: "form-control #{'is-invalid' if intention.errors[:sentence].any?}",
+            placeholder: "Mornings, again: ten minutes at the kitchen table before the day starts." %>
+      <div class="form-text">
+        One sentence, in your own words. It is the only thing about you the script writer sees.
+      </div>
+      <% if intention.errors[:sentence].any? %>
+        <div class="invalid-feedback"><%= intention.errors[:sentence].first %></div>
+      <% end %>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-sm-5">
+        <%= f.label :length_minutes, "Length", class: "form-label" %>
+        <%= f.select :length_minutes,
+              Intention::LENGTHS.map { |m| [Intention.length_label(m), m] },
+              {}, class: "form-select #{'is-invalid' if intention.errors[:length_minutes].any?}" %>
+        <% if intention.errors[:length_minutes].any? %>
+          <div class="invalid-feedback"><%= intention.errors[:length_minutes].first %></div>
+        <% end %>
+      </div>
+      <div class="col-sm-7">
+        <%= f.label :tone, "Tone", class: "form-label" %>
+        <%= f.select :tone,
+              Intention::TONES.map { |t| [Intention::TONE_LABELS[t], t] },
+              {}, class: "form-select #{'is-invalid' if intention.errors[:tone].any?}" %>
+        <% if intention.errors[:tone].any? %>
+          <div class="invalid-feedback"><%= intention.errors[:tone].first %></div>
+        <% end %>
+      </div>
+    </div>
+
+    <%= f.submit class: "btn btn-primary", data: { form_submit_target: "button" } %>
+  <% end %>
+</div>

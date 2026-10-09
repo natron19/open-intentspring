@@ -1,0 +1,55 @@
+<div class="d-flex justify-content-between align-items-start mb-3 gap-3">
+  <div>
+    <p class="text-muted small mb-1">
+      <%= link_to "← My intentions", intentions_path, class: "text-muted" %>
+    </p>
+    <h1 class="h3 mb-0">Your intention</h1>
+  </div>
+  <div class="d-flex gap-2 flex-shrink-0">
+    <%= link_to "Edit", edit_intention_path(@intention), class: "btn btn-outline-secondary btn-sm" %>
+    <%= button_to "Delete", intention_path(@intention),
+          method: :delete,
+          form: { data: { turbo_confirm: "Delete this intention and its scripts?" } },
+          class: "btn btn-outline-danger btn-sm" %>
+  </div>
+</div>
+
+<div class="card mb-4" style="max-width: 820px;">
+  <div class="card-body">
+    <blockquote class="intention-quote mb-3"><%= @intention.sentence %></blockquote>
+    <dl class="row mb-0 small">
+      <dt class="col-sm-3 text-muted">Length</dt>
+      <dd class="col-sm-9"><%= @intention.length_label %></dd>
+      <dt class="col-sm-3 text-muted">Tone</dt>
+      <dd class="col-sm-9 mb-0"><%= @intention.tone_label %></dd>
+    </dl>
+  </div>
+</div>
+
+<div class="mb-4" style="max-width: 820px;">
+  <%= render "intentions/write_button", intention: @intention, label: "Write my script", button_class: "btn btn-primary" %>
+  <p class="text-muted small mt-2 mb-0">
+    Only the sentence above, the length and the tone are sent to the AI, never your name or email. It writes a
+    script for you to read aloud or record yourself, with pauses marked, and one small thing you could make
+    afterwards. It never tells you how you are doing. Typically takes 10&ndash;30 seconds.
+  </p>
+</div>
+
+<% if @guided_scripts.any? %>
+  <h2 class="h6 text-muted mb-2">Scripts so far</h2>
+  <ul class="list-unstyled small" style="max-width: 820px;">
+    <% @guided_scripts.each do |script| %>
+      <li class="mb-2">
+        <%= link_to intention_guided_script_path(@intention, script) do %>
+          <%= script.completed? ? script.title : (script.generated_at ? "#{time_ago_in_words(script.generated_at)} ago" : "Unknown time") %>
+        <% end %>
+        &nbsp;
+        <% if script.completed? %>
+          <span class="text-muted"><%= Intention.length_label(script.length_minutes) %>, <%= time_ago_in_words(script.generated_at) %> ago</span>
+        <% else %>
+          <span class="text-muted fst-italic"><%= script.failed? ? "could not be used" : "still being written" %></span>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

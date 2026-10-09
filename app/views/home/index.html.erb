@@ -1,0 +1,58 @@
+<div class="text-center py-5">
+  <h1 class="display-5 fw-bold"><%= ENV.fetch("APP_NAME", "IntentSpring Demo") %></h1>
+  <p class="lead text-muted mt-2"><%= ENV.fetch("APP_TAGLINE", "") %></p>
+  <p class="text-muted mx-auto mt-3" style="max-width: 620px;">
+    Say the one thing you are reaching for in a sentence, pick a length and a tone, and get a guided script to
+    read aloud or record for yourself, with the pauses marked, plus one small thing you could make afterwards.
+    The AI never makes the art, never tells you how you are doing, and never treats any of this as therapy.
+    Only your sentence is sent; nothing else about you.
+  </p>
+  <div class="mt-4 d-flex justify-content-center gap-3">
+    <% if signed_in? %>
+      <%= link_to "Go to my intentions", intentions_path, class: "btn btn-primary btn-lg" %>
+    <% else %>
+      <%= link_to "Try it free", sign_up_path, class: "btn btn-primary btn-lg" %>
+      <%= link_to "Sign in", sign_in_path, class: "btn btn-outline-secondary btn-lg" %>
+    <% end %>
+  </div>
+</div>
+
+<hr class="my-5 opacity-25">
+
+<div class="mx-auto" style="max-width: 760px;">
+  <h2 class="h5 text-muted text-center mb-4">Example &mdash; three minutes, quiet</h2>
+
+  <blockquote class="intention-quote mb-4">Mornings, again: ten minutes at the kitchen table before the day starts.</blockquote>
+
+  <div class="script mb-2">
+    <p class="script-text">Sit however you are sitting. There is nothing to fix about it. Let your hands rest where they landed, on the table or in your lap.</p>
+    <p class="script-pause">[pause, 8 seconds]</p>
+    <p class="script-text">You wrote: mornings, again. Say it once, quietly, in your own voice. Mornings, again.</p>
+    <p class="script-pause">[pause, 10 seconds]</p>
+    <p class="script-text">The house is still. The day has not asked you for anything yet. This is the part before it does.</p>
+    <p class="script-pause">[pause, 8 seconds]</p>
+  </div>
+  <p class="text-muted small fst-italic mb-4">&hellip; ten more passages, about 340 words in all &hellip;</p>
+
+  <div class="card making-card mb-3">
+    <div class="card-body">
+      <h3 class="h6 mb-2">Something to make afterwards</h3>
+      <p class="small text-muted mb-1">Photograph &middot; One photograph of the table, taken from where you sit, before you stand up.</p>
+      <p class="mb-0">Before you get up, take one picture of the table exactly as it is this morning. It only has to be true to this one morning.</p>
+    </div>
+  </div>
+
+  <p class="text-center text-muted small mt-4">
+    AI-generated. A script for you to read aloud or record yourself; not therapy or medical advice.
+  </p>
+</div>
+
+<div class="text-center mt-5 pb-4">
+  <% unless signed_in? %>
+    <%= link_to "Write your own script &rarr;".html_safe, sign_up_path, class: "btn btn-primary" %>
+  <% end %>
+  <div class="mt-3 text-muted small">
+    Open source &middot;
+    <a href="https://intentspring.com" class="text-muted">IntentSpring</a>
+  </div>
+</div>

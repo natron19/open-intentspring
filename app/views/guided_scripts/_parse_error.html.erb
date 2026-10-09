@@ -1,0 +1,11 @@
+<div class="alert alert-warning">
+  <strong>The AI&rsquo;s script could not be used.</strong>
+  <p class="mb-1"><%= script.failure_reason %>.</p>
+  <p class="mb-2 small">
+    The script did not match the expected shape or broke one of this app&rsquo;s rules: it must be close to the
+    length you asked for, and it never uses therapy, healing, diagnosis or progress language or music cues.
+    Write it again, or edit the template in the admin panel to tighten the instructions.
+  </p>
+  <%= render "intentions/write_button", intention: intention, label: "Retry",
+             button_class: "btn btn-outline-warning btn-sm" %>
+</div>

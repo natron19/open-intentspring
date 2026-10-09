@@ -1,0 +1,15 @@
+<%# The one button that runs intentspring_script_v1. The generating controller swaps it for a spinner while Gemini works. %>
+<div data-controller="generating"
+     data-action="turbo:submit-start->generating#start turbo:submit-end->generating#stop">
+  <div data-generating-target="form">
+    <%= button_to label, intention_guided_scripts_path(intention), method: :post, class: button_class %>
+  </div>
+  <div data-generating-target="overlay" class="d-none">
+    <div class="d-flex align-items-center gap-2">
+      <div class="spinner-border spinner-border-sm text-secondary" role="status">
+        <span class="visually-hidden">Writing…</span>
+      </div>
+      <span class="text-muted small">Writing your script&hellip;</span>
+    </div>
+  </div>
+</div>
