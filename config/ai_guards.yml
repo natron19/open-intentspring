@@ -21,6 +21,7 @@ crisis_terms:
 # generic output checks only (non-empty, no prompt leak, no profanity, no new PII).
 #   format:        text | json
 #   required_keys: top-level keys the JSON object must contain
+#   thinking_budget: gemini-2.5 thinking tokens for this template (overrides AI_THINKING_BUDGET; 0 = off)
 templates:
   health_ping:
     format: text
@@ -29,3 +30,4 @@ templates:
   intentspring_script_v1:
     format: json
     required_keys: [title, length_minutes, segments, making_prompt]
+    thinking_budget: 0   # a 10-minute script is ~1,200 words; thinking on top put p95 at the 15s bar
